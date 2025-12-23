@@ -54,7 +54,6 @@ spatial_vecPlot(rs2) # spatial vector plot
 spatial_magPlot(rs2) # spatial vector magnitude & projected score plot
 sa1 = spatial_adjust(dat1,feature='HIF1A',plot = T) # spatial map 
 sa2 = spatial_adjust(dat1,feature='VEGFA',plot = T) # spatial map
-sb = spatial_binstat(sa1,plot = T) # spatial map with binary matrix
 sc = spatial_cordstat(sa1,sa2,plot=T,plot_bin_col=c('blue','orange'),operator_steps = rep(0,4)) # spatial map for two specified features
 spatial_vecPlot(rs3) # spatial vector plot
 spatial_vecPlot(rs4) # spatial vector plot
