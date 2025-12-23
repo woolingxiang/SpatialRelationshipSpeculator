@@ -24,11 +24,41 @@ spatial_binstat(
 )
 }
 \arguments{
-\item{spatial_adjust_obj}{list, bins vector, min.cutoff numeric, min.cnt numeric, pct.cutoff numeric, bin_border_col character, bin_target_col character, bin_border_lwd numeric, bin_target_lwd numeric, bin_border_lty numeric, bin_target_lty numeric, do.stat boolean, mtx_msk matrix, plot boolean, label boolean, pt_cex numeric}
+\item{spatial_adjust_obj}{list,}
+
+\item{bins}{vector,}
+
+\item{min.cutoff}{numeric,}
+
+\item{min.cnt}{numeric,}
+
+\item{pct.cutoff}{numeric,}
+
+\item{bin_border_col}{character,}
+
+\item{bin_target_col}{character,}
+
+\item{bin_border_lwd}{numeric,}
+
+\item{bin_target_lwd}{numeric,}
+
+\item{bin_border_lty}{numeric,}
+
+\item{bin_target_lty}{numeric,}
+
+\item{do.stat}{boolean,}
+
+\item{mtx_msk}{matrix,}
+
+\item{plot}{boolean,}
+
+\item{label}{boolean,}
+
+\item{pt_cex}{numeric}
 }
 \value{
 list
 }
 \description{
-creating binary matrix with specified feature and calculating significance of correlation between targeted feature and specified feature
+creating binary matrix with specified feature
 }

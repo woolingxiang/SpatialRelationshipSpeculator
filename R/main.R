@@ -1,12 +1,21 @@
-
 #' spatial_vector
 #'
 #' generating vectors for spatial relatioship speculator in one sample
 #' 
-#' @param object S4, target character, features vector, objNM character, steps vector, min.cutoffs numeric, threads numeric, stat boolean, package.libpath character
-#' @return list
+#' @param object S4, a Seurat object
+#' @param target character, a feature name (e.g., gene name in profile or a column name in meta.data). 
+#' @param features vector, a collection of feature names, will be analyzed to explore their relationships with the target feature. 
+#' @param objNM character, object name. Default, 'obj'. 
+#' @param steps vector, a vector containing step sizes for simulating the displacement of spatial object. Default, seq(2,12,2). 
+#' @param min.cutoffs numeric, a cutoff value on the feature to create a binary representation. If not specified (NULL), a mean value will be generated automatically.
+#' @param threads numeric, number of threads for running, which is advised for large feature sets (≥50 features). Default, NULL. 
+#' @param package.libpath character, the absolute file path to R library containing required packages (e.g., Seurat). This path is used when the threadsparameter is specified. Default, NULL. 
+#' @param stat boolean, determines whether projected scores and magnitude values should be calculated for the features. Default, TRUE.  
+#'
+#' @return list, pool_df: a dataframe summarizing maximum and minimum delta Jaccard indexes for each step across all features. projected.score: a vector containing projected scores for the features. vector.len: a vector containing magnitude values for the features. target: target feature name. features: a collection of feature names.
+#'
 #' @export
-spatial_vector = function(object,target,features,objNM='obj',steps=seq(2,12,2),min.cutoffs=NULL,threads=NULL,stat=TRUE,package.libpath=NULL){
+spatial_vector = function(object,target,features,objNM='obj',steps=seq(2,12,2),min.cutoffs=NULL,threads=NULL,package.libpath=NULL,stat=TRUE){
   
   pool_list = lapply(1:length(steps),function(i){
     operator_steps = rep(steps[i],4)
@@ -69,8 +78,17 @@ spatial_vector = function(object,target,features,objNM='obj',steps=seq(2,12,2),m
 #'
 #' generating vectors for spatial relatioship speculator across various samples
 #' 
-#' @param objects list, target character, features vector, steps vector, min.cutoffs numeric, threads numeric, package.libpath character, output2RDS character
-#' @return list
+#' @param objects list, a list containing a collection of Seurat objects. 
+#' @param target character, a feature name (e.g., gene name in profile or a column name in meta.data). 
+#' @param features vector, a collection of feature names, will be analyzed to explore their relationships with the target feature. 
+#' @param steps vector, a vector containing step sizes for simulating the displacement of spatial object. Default, seq(2,12,2). 
+#' @param min.cutoffs numeric, a cutoff value on the feature to create a binary representation. If not specified (NULL), a mean value will be generated automatically.
+#' @param threads numeric, number of threads for running, which is advised for large feature sets (≥50 features). Default, NULL. 
+#' @param package.libpath character, the absolute file path to R library containing required packages (e.g., Seurat). This path is used when the threadsparameter is specified. Default, NULL. 
+#' @param output2RDS character, the absolute file path to outputting result. Default, NULL. 
+#' 
+#' @return list, pool_df: a dataframe summarizing maximum and minimum delta Jaccard indexes for each step across all features. pool_raw: a dataframe containing all delta Jaccard indexes for each step across all features. projected.score: a vector containing projected scores for the features. vector.len: a vector containing magnitude values for the features. target: target feature name. features: a collection of feature names. 
+#'
 #' @export
 spatial_vectorX = function(objects,target,features,steps=seq(2,12,2),min.cutoffs=NULL,threads=NULL,package.libpath=NULL,output2RDS=NULL){
   
@@ -104,7 +122,13 @@ spatial_vectorX = function(objects,target,features,steps=seq(2,12,2),min.cutoffs
 #' 
 #' visualizing vectors for spatial relatioship speculator
 #'
-#' @param spaVecObj list, cex_point numeric, cex_text numeric, pct_ctf numeric, cols vector, projected boolean
+#' @param spaVecObj list, a spatial_vector or spatial_vectorX object. 
+#' @param cex_point numeric, size of point. Default, 1. 
+#' @param cex_text numeric, size of text. Default, 1. 
+#' @param pct_ctf numeric, percentile cutoff for identifying features with extreme vector values, above which the feature name will be shown. Default, NULL. 
+#' @param cols vector, a sequence of colors to use. If not specified (NULL), a default color gradient from 'steelblue' to 'red' will be generated automatically.
+#' @param projected boolean, determines whether the projetced score should be visualized. Default, TRUE. 
+#'
 #' @return NULL
 #' @export
 spatial_vecPlot = function(spaVecObj,cex_point=1,cex_text=1,pct_ctf=NULL,cols=NULL,projected=T,...){
@@ -177,6 +201,7 @@ spatial_vecPlot = function(spaVecObj,cex_point=1,cex_text=1,pct_ctf=NULL,cols=NU
   
   z_range = range(steps)
   label_values = pretty(z_range) 
+  label_values = label_values[which(label_values<=z_range[2])]
   label_positions = legend_y_bottom + (label_values - z_range[1]) / (z_range[2] - z_range[1]) * (legend_y_top - legend_y_bottom)
   axis(side = 4, at = label_positions, labels = label_values, las = 1, pos = legend_x_right, cex.axis = 0.8)
   
@@ -188,7 +213,13 @@ spatial_vecPlot = function(spaVecObj,cex_point=1,cex_text=1,pct_ctf=NULL,cols=NU
 #' 
 #' visualizing magnitude & projected score for spatial relatioship speculator
 #'
-#' @param spaVecObj list, cols vector, cex_point numeric, cex_text numeric, cex_line numeric, lty numeric
+#' @param spaVecObj list, a spatial_vector or spatial_vectorX object. 
+#' @param cols vector, a sequence of colors to use. Default, c('green','orange'). 
+#' @param cex_point numeric, size of point. Default, 1. 
+#' @param cex_text numeric, size of text. Default, 1.  
+#' @param cex_line numeric, size of line. Default, 1. 
+#' @param lty numeric, line type. Default, 1. 
+#'
 #' @return NULL
 #' @export
 spatial_magPlot = function(spaVecObj,cols=c('green','orange'),cex_point=1,cex_text=1,cex_line=1,lty=1,...){
@@ -215,8 +246,8 @@ spatial_magPlot = function(spaVecObj,cols=c('green','orange'),cex_point=1,cex_te
 #' 
 #' calculating projected score
 #'
-#' @param spaVecObj list
-#' @return vector
+#' @param spaVecObj list, a spatial_vector or spatial_vectorX object. 
+#' @return vector, a vector containing projected scores for all specified features.
 #' 
 spatial_vecProj = function(spaVecObj){
   spaVec.df = spaVecObj$vectors
@@ -230,8 +261,8 @@ spatial_vecProj = function(spaVecObj){
 #'
 #' calculating magnitude
 #'
-#' @param spaVecObj list
-#' @return vector
+#' @param spaVecObj list, a spatial_vector or spatial_vectorX object. 
+#' @return vector, a vector containing magnitude values for specified features. 
 #'
 spatial_vecMagnitude = function(spaVecObj){
   spaVec.df = spaVecObj$vectors
@@ -259,10 +290,20 @@ spatial_vecMagnitude = function(spaVecObj){
 #' 
 #' creating a spatial object with digital matrix and showing spatial map with specified feature
 #'
-#' @param object S4, slice_id character, proj_name character, rotate_mirror vector, feature character, operator character, cols vector, plot boolean, verbose boolean, pt_cex numeric
-#' @return list
+#' @param object S4, a Seurat object
+#' @param slice_id character, slice id. Default, 'slice1'. 
+#' @param proj_name character, a project name. Default, NULL. 
+#' @param rotate_mirror vector, a vector of two elements controlling image transformation. The first element (rotate) is the rotation angle in degrees, valid values are 0, 90, 180, or 270. The second element (mirror) is a character specifying mirroring: 'Y' for yes, 'N' for no. Default is list(0, 'N'). 
+#' @param feature character, a feature name (e.g., gene name in profile or a column name in meta.data). 
+#' @param operator matrix, a user-defined 2x2 matrix for image transformation. This parameter is mutually exclusive with rotate_mirror. If both are provided, operator takes precedence. Default, NULL. 
+#' @param cols vector, a sequence of colors to use. If not specified (NULL), a default color gradient from 'steelblue' to 'red' will be generated automatically. 
+#' @param plot boolean, determines whether visulization should be generated. Default, TRUE. 
+#' @param verbose boolean, determines whether running message should be outputting. Default, TRUE. 
+#' @param pt_cex numeric, size of point. Default, 0.5. 
+#'
+#' @return list, img_cord: position values of the spots; vec_feature: feature values of the spots; vec_col: a sequence of colors; proj_name: project name; feature: feature name; operation: operator setting. 
 #' @export
-spatial_adjust = function(object,slice_id,proj_name=NULL,rotate_mirror=c(0,'N'),feature=NULL,operator=NULL,cols=NULL,plot=T, verbose=T, pt_cex=0.5){
+spatial_adjust = function(object,slice_id='slice1',proj_name=NULL,rotate_mirror=c(0,'N'),feature=NULL,operator=NULL,cols=NULL,plot=T, verbose=T, pt_cex=0.5){
   
   operator_cis0 = matrix(c(1,0,0,1),nrow=2)
   operator_cis90 = matrix(c(0,-1,1,0),nrow=2)
@@ -318,10 +359,37 @@ spatial_adjust = function(object,slice_id,proj_name=NULL,rotate_mirror=c(0,'N'),
   }
   
   if(plot){
+    op = par(no.readonly = TRUE)
+    par(mar = c(5, 4, 4, 6) + 0.1)
+      
     plot(0,type='n',ylim=range(new_img[,2]),xlim=range(new_img[,1]),main=feature,xaxt='n',yaxt='n',xlab='',ylab='')
     for(i in 1:nrow(new_img)){
       if(!is.null(vec)) points(new_img[i,1],new_img[i,2],col=vec_col[i],pch=16,cex=pt_cex)
     }
+      
+    par(xpd = TRUE)
+    usr = par("usr")
+    legend_width = 0.08 * (usr[2] - usr[1])  
+    legend_x_left = usr[2] + 0.02 * (usr[2] - usr[1]) 
+    legend_x_right = legend_x_left + legend_width
+    legend_y_bottom = usr[3] 
+    legend_y_top = usr[4]
+    
+    for (i in 1:length(cols)) {
+    rect(legend_x_left,
+         legend_y_bottom + (i-1)/length(cols) * (legend_y_top - legend_y_bottom),
+         legend_x_right,
+         legend_y_bottom + i/length(cols) * (legend_y_top - legend_y_bottom),
+         col = cols[i], border = NA)
+    }
+  
+    z_range = range(vec)
+    label_values = pretty(z_range) 
+    label_values = label_values[which(label_values<=z_range[2])]
+    label_positions = legend_y_bottom + (label_values - z_range[1]) / (z_range[2] - z_range[1]) * (legend_y_top - legend_y_bottom)
+    axis(side = 4, at = label_positions, labels = label_values, las = 1, pos = legend_x_right, cex.axis = 0.8)
+    par(mar = c(5, 4, 4, 2) + 0.1, xpd = FALSE)
+    
   }
   
   return(list(
@@ -330,18 +398,34 @@ spatial_adjust = function(object,slice_id,proj_name=NULL,rotate_mirror=c(0,'N'),
     vec_col = vec_col,
     proj_name = proj_name,
     feature = feature,
-    operation = paste0('[INFO] rotating ',rotate_mirror[1],' degree, with ',ifelse(rotate_mirror[2]=='N','no',ifelse(rotate_mirror[2]=='X','horizontal','vertical')),' mirror.')
+    operation = operator
   ))
   
 }
 
 #' spatial_binstat
 #' 
-#' creating binary matrix with specified feature and calculating significance of correlation between targeted feature and specified feature
+#' creating binary matrix with specified feature (unavailable temporarily)
 #'
-#' @param spatial_adjust_obj list, bins vector, min.cutoff numeric, min.cnt numeric, pct.cutoff numeric, bin_border_col character, bin_target_col character, bin_border_lwd numeric, bin_target_lwd numeric, bin_border_lty numeric, bin_target_lty numeric, do.stat boolean, mtx_msk matrix, plot boolean, label boolean, pt_cex numeric
+#' @param spatial_adjust_obj list, 
+#' @param bins vector, 
+#' @param min.cutoff numeric, 
+#' @param min.cnt numeric, 
+#' @param pct.cutoff numeric, 
+#' @param bin_border_col character, 
+#' @param bin_target_col character, 
+#' @param bin_border_lwd numeric, 
+#' @param bin_target_lwd numeric, 
+#' @param bin_border_lty numeric, 
+#' @param bin_target_lty numeric, 
+#' @param do.stat boolean, 
+#' @param mtx_msk matrix, 
+#' @param plot boolean, 
+#' @param label boolean, 
+#' @param pt_cex numeric
+#'
 #' @return list
-#' @export
+#' 
 spatial_binstat = function(spatial_adjust_obj, bins=c(8,8), min.cutoff=0, min.cnt=10, pct.cutoff=0.5,
                            bin_border_col='gray',bin_target_col='red',bin_border_lwd=0.5,bin_target_lwd=1,bin_border_lty=3,bin_target_lty=3,
                            do.stat=T, mtx_msk=NULL,
@@ -444,11 +528,22 @@ spatial_binstat = function(spatial_adjust_obj, bins=c(8,8), min.cutoff=0, min.cn
 #' 
 #' analyzing Jaccard indexes between two spatial_adjust objects with specified features and visualizing spatial map 
 #'
-#' @param spatial_adjust_obj1 list, spatial_adjust_obj2 list, min.cutoffs vector, min.pct_cutoffs vector, min.cnt vector, pct.cutoff vector, operator_steps vector, do.stat boolean, plot boolean, plot_bin boolean, plot_bin_col vector, cord_mov character, pt_cex numeric
+#' @param spatial_adjust_obj1 list, a spatial_adjust object
+#' @param spatial_adjust_obj2 list, a spatial_adjust object with another specified feature name
+#' @param min.cutoffs vector, a cutoff value on the feature to create a binary representation. If not specified (NULL), a mean value will be generated automatically. 
+#' @param min.pct_cutoffs vector, a percentile cutoff value on the feature to create a binary representation. This parameter is mutually exclusive with min.cutoffs. If both are provided, min.pct_cutoffs takes precedence. Default, NULL. 
+#' @param operator_steps vector, a vector containing step sizes for simulating the displacement of spatial object in eight cardinal directions. Default, c(4,4,4,4). 
+#' @param do.stat boolean, determines whether the Jaccard indexes should be calculated. Default, TRUE. 
+#' @param plot boolean, determines whether visulization should be generated. Default, TRUE. 
+#' @param plot_bin boolean, determines whether visulization should be generated in binary style. Default, FALSE. 
+#' @param plot_bin_col vector, a sequence of colors to use. Default, c('orange','blue'). 
+#' @param cord_mov character, a specified displacement of spatial map for visualization. Valid values are 'add_X', 'minus_X', 'add_Y', 'minus_Y', 'add_X_add_Y', 'add_X_minus_Y', 'minus_X_add_Y', and 'minus_X_minus_Y'. Default, NULL. 
+#' @param pt_cex numeric, size of point. Default, 0.5. 
+#'
 #' @return list
 #' @export
-spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs=c(0,0),min.pct_cutoffs=NULL, min.cnt=c(10,10), pct.cutoff=c(0.5,0.5),
-                            operator_steps=c(4,4,4,4), do.stat=T, plot=T, plot_bin=F, plot_bin_col=c('orange','blue'), cord_mov = 'add_X_add_Y', pt_cex=0.5){
+spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs=c(0,0),min.pct_cutoffs=NULL,
+                            operator_steps=c(4,4,4,4), do.stat=T, plot=T, plot_bin=F, plot_bin_col=c('orange','blue'), cord_mov = NULL, pt_cex=0.5){
   
   new_img1 = spatial_adjust_obj1$img_cord
   proj_name1 = spatial_adjust_obj1$proj_name

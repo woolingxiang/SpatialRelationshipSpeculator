@@ -12,15 +12,31 @@ spatial_vector(
   steps = seq(2, 12, 2),
   min.cutoffs = NULL,
   threads = NULL,
-  stat = TRUE,
-  package.libpath = NULL
+  package.libpath = NULL,
+  stat = TRUE
 )
 }
 \arguments{
-\item{object}{S4, target character, features vector, objNM character, steps vector, min.cutoffs numeric, threads numeric, stat boolean, package.libpath character}
+\item{object}{S4, a Seurat object}
+
+\item{target}{character, a feature name (e.g., gene name in profile or a column name in meta.data).}
+
+\item{features}{vector, a collection of feature names, will be analyzed to explore their relationships with the target feature.}
+
+\item{objNM}{character, object name. Default, 'obj'.}
+
+\item{steps}{vector, a vector containing step sizes for simulating the displacement of spatial object. Default, seq(2,12,2).}
+
+\item{min.cutoffs}{numeric, a cutoff value on the feature to create a binary representation. If not specified (NULL), a mean value will be generated automatically.}
+
+\item{threads}{numeric, number of threads for running, which is advised for large feature sets (≥50 features). Default, NULL.}
+
+\item{package.libpath}{character, the absolute file path to R library containing required packages (e.g., Seurat). This path is used when the threadsparameter is specified. Default, NULL.}
+
+\item{stat}{boolean, determines whether projected scores and magnitude values should be calculated for the features. Default, TRUE.}
 }
 \value{
-list
+list, pool_df: a dataframe summarizing maximum and minimum delta Jaccard indexes for each step across all features. projected.score: a vector containing projected scores for the features. vector.len: a vector containing magnitude values for the features. target: target feature name. features: a collection of feature names.
 }
 \description{
 generating vectors for spatial relatioship speculator in one sample

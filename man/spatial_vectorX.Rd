@@ -16,10 +16,24 @@ spatial_vectorX(
 )
 }
 \arguments{
-\item{objects}{list, target character, features vector, steps vector, min.cutoffs numeric, threads numeric, package.libpath character, output2RDS character}
+\item{objects}{list, a list containing a collection of Seurat objects.}
+
+\item{target}{character, a feature name (e.g., gene name in profile or a column name in meta.data).}
+
+\item{features}{vector, a collection of feature names, will be analyzed to explore their relationships with the target feature.}
+
+\item{steps}{vector, a vector containing step sizes for simulating the displacement of spatial object. Default, seq(2,12,2).}
+
+\item{min.cutoffs}{numeric, a cutoff value on the feature to create a binary representation. If not specified (NULL), a mean value will be generated automatically.}
+
+\item{threads}{numeric, number of threads for running, which is advised for large feature sets (≥50 features). Default, NULL.}
+
+\item{package.libpath}{character, the absolute file path to R library containing required packages (e.g., Seurat). This path is used when the threadsparameter is specified. Default, NULL.}
+
+\item{output2RDS}{character, the absolute file path to outputting result. Default, NULL.}
 }
 \value{
-list
+list, pool_df: a dataframe summarizing maximum and minimum delta Jaccard indexes for each step across all features. pool_raw: a dataframe containing all delta Jaccard indexes for each step across all features. projected.score: a vector containing projected scores for the features. vector.len: a vector containing magnitude values for the features. target: target feature name. features: a collection of feature names.
 }
 \description{
 generating vectors for spatial relatioship speculator across various samples

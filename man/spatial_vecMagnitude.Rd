@@ -7,10 +7,10 @@
 spatial_vecMagnitude(spaVecObj)
 }
 \arguments{
-\item{spaVecObj}{list}
+\item{spaVecObj}{list, a spatial_vector or spatial_vectorX object.}
 }
 \value{
-vector
+vector, a vector containing magnitude values for specified features.
 }
 \description{
 calculating magnitude

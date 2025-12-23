@@ -6,7 +6,7 @@
 \usage{
 spatial_adjust(
   object,
-  slice_id,
+  slice_id = "slice1",
   proj_name = NULL,
   rotate_mirror = c(0, "N"),
   feature = NULL,
@@ -18,10 +18,28 @@ spatial_adjust(
 )
 }
 \arguments{
-\item{object}{S4, slice_id character, proj_name character, rotate_mirror vector, feature character, operator character, cols vector, plot boolean, verbose boolean, pt_cex numeric}
+\item{object}{S4, a Seurat object}
+
+\item{slice_id}{character, slice id. Default, 'slice1'.}
+
+\item{proj_name}{character, a project name. Default, NULL.}
+
+\item{rotate_mirror}{vector, a vector of two elements controlling image transformation. The first element (rotate) is the rotation angle in degrees, valid values are 0, 90, 180, or 270. The second element (mirror) is a character specifying mirroring: 'Y' for yes, 'N' for no. Default is list(0, 'N').}
+
+\item{feature}{character, a feature name (e.g., gene name in profile or a column name in meta.data).}
+
+\item{operator}{matrix, a user-defined 2x2 matrix for image transformation. This parameter is mutually exclusive with rotate_mirror. If both are provided, operator takes precedence. Default, NULL.}
+
+\item{cols}{vector, a sequence of colors to use. If not specified (NULL), a default color gradient from 'steelblue' to 'red' will be generated automatically.}
+
+\item{plot}{boolean, determines whether visulization should be generated. Default, TRUE.}
+
+\item{verbose}{boolean, determines whether running message should be outputting. Default, TRUE.}
+
+\item{pt_cex}{numeric, size of point. Default, 0.5.}
 }
 \value{
-list
+list, img_cord: position values of the spots; vec_feature: feature values of the spots; vec_col: a sequence of colors; proj_name: project name; feature: feature name; operation: operator setting.
 }
 \description{
 creating a spatial object with digital matrix and showing spatial map with specified feature

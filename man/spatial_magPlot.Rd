@@ -15,7 +15,17 @@ spatial_magPlot(
 )
 }
 \arguments{
-\item{spaVecObj}{list, cols vector, cex_point numeric, cex_text numeric, cex_line numeric, lty numeric}
+\item{spaVecObj}{list, a spatial_vector or spatial_vectorX object.}
+
+\item{cols}{vector, a sequence of colors to use. Default, c('green','orange').}
+
+\item{cex_point}{numeric, size of point. Default, 1.}
+
+\item{cex_text}{numeric, size of text. Default, 1.}
+
+\item{cex_line}{numeric, size of line. Default, 1.}
+
+\item{lty}{numeric, line type. Default, 1.}
 }
 \description{
 visualizing magnitude & projected score for spatial relatioship speculator

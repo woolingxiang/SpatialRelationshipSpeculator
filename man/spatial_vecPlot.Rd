@@ -15,7 +15,17 @@ spatial_vecPlot(
 )
 }
 \arguments{
-\item{spaVecObj}{list, cex_point numeric, cex_text numeric, pct_ctf numeric, cols vector, projected boolean}
+\item{spaVecObj}{list, a spatial_vector or spatial_vectorX object.}
+
+\item{cex_point}{numeric, size of point. Default, 1.}
+
+\item{cex_text}{numeric, size of text. Default, 1.}
+
+\item{pct_ctf}{numeric, percentile cutoff for identifying features with extreme vector values, above which the feature name will be shown. Default, NULL.}
+
+\item{cols}{vector, a sequence of colors to use. If not specified (NULL), a default color gradient from 'steelblue' to 'red' will be generated automatically.}
+
+\item{projected}{boolean, determines whether the projetced score should be visualized. Default, TRUE.}
 }
 \description{
 visualizing vectors for spatial relatioship speculator

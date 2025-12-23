@@ -7,10 +7,10 @@
 spatial_vecProj(spaVecObj)
 }
 \arguments{
-\item{spaVecObj}{list}
+\item{spaVecObj}{list, a spatial_vector or spatial_vectorX object.}
 }
 \value{
-vector
+vector, a vector containing projected scores for all specified features.
 }
 \description{
 calculating projected score

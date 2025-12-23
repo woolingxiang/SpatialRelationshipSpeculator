@@ -9,19 +9,37 @@ spatial_cordstat(
   spatial_adjust_obj2,
   min.cutoffs = c(0, 0),
   min.pct_cutoffs = NULL,
-  min.cnt = c(10, 10),
-  pct.cutoff = c(0.5, 0.5),
   operator_steps = c(4, 4, 4, 4),
   do.stat = T,
   plot = T,
   plot_bin = F,
   plot_bin_col = c("orange", "blue"),
-  cord_mov = "add_X_add_Y",
+  cord_mov = NULL,
   pt_cex = 0.5
 )
 }
 \arguments{
-\item{spatial_adjust_obj1}{list, spatial_adjust_obj2 list, min.cutoffs vector, min.pct_cutoffs vector, min.cnt vector, pct.cutoff vector, operator_steps vector, do.stat boolean, plot boolean, plot_bin boolean, plot_bin_col vector, cord_mov character, pt_cex numeric}
+\item{spatial_adjust_obj1}{list, a spatial_adjust object}
+
+\item{spatial_adjust_obj2}{list, a spatial_adjust object with another specified feature name}
+
+\item{min.cutoffs}{vector, a cutoff value on the feature to create a binary representation. If not specified (NULL), a mean value will be generated automatically.}
+
+\item{min.pct_cutoffs}{vector, a percentile cutoff value on the feature to create a binary representation. This parameter is mutually exclusive with min.cutoffs. If both are provided, min.pct_cutoffs takes precedence. Default, NULL.}
+
+\item{operator_steps}{vector, a vector containing step sizes for simulating the displacement of spatial object in eight cardinal directions. Default, c(4,4,4,4).}
+
+\item{do.stat}{boolean, determines whether the Jaccard indexes should be calculated. Default, TRUE.}
+
+\item{plot}{boolean, determines whether visulization should be generated. Default, TRUE.}
+
+\item{plot_bin}{boolean, determines whether visulization should be generated in binary style. Default, FALSE.}
+
+\item{plot_bin_col}{vector, a sequence of colors to use. Default, c('orange','blue').}
+
+\item{cord_mov}{character, a specified displacement of spatial map for visualization. Valid values are 'add_X', 'minus_X', 'add_Y', 'minus_Y', 'add_X_add_Y', 'add_X_minus_Y', 'minus_X_add_Y', and 'minus_X_minus_Y'. Default, NULL.}
+
+\item{pt_cex}{numeric, size of point. Default, 0.5.}
 }
 \value{
 list
