@@ -14,6 +14,8 @@ renv::init('.')
 renv::install('woolingxiang/SpatialRelationshipSpeculator')
 renv::snapshot(type='all')
 ```
+#### dependencies
+Seurat ≤ 4.4.0
 
 ### Quick Start
 ```{r}
