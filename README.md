@@ -3,13 +3,17 @@ The SpatialRelationshipSpeculator (SRS) algorithm quantitatively assesses the sp
 
 ### Installation
 #### option 1
+```{r}
 install.packages('devtools') # version ≥ 2.4.3
 devtools::install_github('woolingxiang/SpatialRelationshipSpeculator')
+```
 #### option 2
+```{r}
 install.packages('renv') # version ≥ 1.0.5
 renv::init('.')
 renv::install('woolingxiang/SpatialRelationshipSpeculator')
 renv::snapshot(type='all')
+```
 
 ### Quick Start
 ```{r}
