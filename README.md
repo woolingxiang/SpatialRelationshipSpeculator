@@ -24,7 +24,9 @@ Seurat ≤ 4.4.0
 ### Quick Start
 ```{r}
 
+library(SpatialRelationshipSpeculator)
 library(Seurat)
+
 dat1 = readRDS('./genomicX10/spatial_seuratObj_sample1.RDS')
 dat2 = readRDS('./genomicX10/spatial_seuratObj_sample2.RDS')
 dat = list(sample1=dat1,sample2=dat2)
