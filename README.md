@@ -60,5 +60,3 @@ spatial_vecPlot(rs3) # spatial vector plot
 spatial_vecPlot(rs4) # spatial vector plot
 
 ```
-
-### Usage
