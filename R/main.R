@@ -353,7 +353,7 @@ spatial_adjust = function(object,slice_id='slice1',proj_name=NULL,rotate_mirror=
     
     if(verbose) cat('[INFO] the expression range of',feature,'is',vec_range,' ..\n')
     
-    vec_col_idx = seq(vec_range[1],vec_range[2],length.out=length(cols)+1)
+    vec_col_idx = seq(vec_range[1],vec_range[2],length=length(cols))
     vec_col = rep('#DDDDDD',length(vec))
     for(i in 1:length(vec_col_idx))  vec_col[which(vec>=vec_col_idx[i])] = cols[i]
   }
