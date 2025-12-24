@@ -611,6 +611,9 @@ spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs
   }
   
   if(plot){
+
+    par(mar = c(5, 4, 4, 6) + 0.1, xpd = TRUE)
+    
     row_range = range(new_img1[,2])
     col_range = range(new_img1[,1])
     new_img2_mov_tmp = new_img2
@@ -631,6 +634,15 @@ spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs
     for(i in 1:nrow(new_img2_mov_tmp)){
       points(new_img2_mov_tmp[i,1],new_img2_mov_tmp[i,2],col=vec_col2[i],cex=pt_cex)
     }
+
+    usr <- par("usr")
+    legend(x = usr[2] + (usr[2]-usr[1])*0.05, bty='n',
+       y = usr[4] - (usr[4]-usr[3])/3,   
+       legend = c(feature1, feature2),
+       col = c(vec_col1[1],vec_col2[1]),
+       pch = c(16, 1))
+    par(mar = c(5, 4, 4, 2) + 0.1, xpd = FALSE)
+    
   }
   
   return(list(
