@@ -542,7 +542,7 @@ spatial_binstat = function(spatial_adjust_obj, bins=c(8,8), min.cutoff=0, min.cn
 #'
 #' @return list
 #' @export
-spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs=c(0,0),min.pct_cutoffs=NULL,
+spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs=NULL,min.pct_cutoffs=NULL,
                             operator_steps=c(4,4,4,4), do.stat=T, plot=T, plot_bin=F, plot_bin_col=c('orange','blue'), cord_mov = NULL, pt_cex=0.5){
   
   new_img1 = spatial_adjust_obj1$img_cord
