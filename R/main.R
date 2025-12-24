@@ -636,11 +636,18 @@ spatial_cordstat = function(spatial_adjust_obj1,spatial_adjust_obj2, min.cutoffs
     }
 
     usr <- par("usr")
-    legend(x = usr[2] + (usr[2]-usr[1])*0.05, bty='n',
-       y = usr[4] - (usr[4]-usr[3])/3,   
-       legend = c(feature1, feature2),
-       col = c(vec_col1[1],vec_col2[1]),
-       pch = c(16, 1))
+    if(plot_bin){
+        legend(x = usr[2] + (usr[2]-usr[1])*0.05, bty='n',
+           y = usr[4] - (usr[4]-usr[3])/3,   
+           legend = c(feature1, feature2),
+           col = plot_bin_col,
+           pch = c(16, 1))
+    }else{
+        legend(x = usr[2] + (usr[2]-usr[1])*0.05, bty='n',
+           y = usr[4] - (usr[4]-usr[3])/3,   
+           legend = c(feature1, feature2),
+           pch = c(16, 1))
+    }
     par(mar = c(5, 4, 4, 2) + 0.1, xpd = FALSE)
     
   }
