@@ -40,7 +40,6 @@ rs2 = spatial_vectorX(dat,target='HIF1A',features=c('VEGFA','PTPRC','CD68'))
 # explore gene sets
 cellmarkers = list(malignant = c('PTPRZ1','SOX2','EGFR'),  
                    BMDM = c('FPR3','ITGA4','TGFBI','KYNU','S100A11','IFITM2'), 
-                   microglia = c('SLC1A3','CX3CR1','P2RY12','SIGLEC8','NAV3'),
                    tnkcell = c('PTPRC','CD3D','CD3E','CD8A','CD4','KLRD1','NCAM1'))
 for(i in 1:length(dat)) dat[[i]] = AddModuleScore(object = dat[[i]], features = cellmarkers , name = names(cellmarkers), seed=666, nbin = 10)
 features = paste0(cellmarkers,1:length(cellmarkers))
