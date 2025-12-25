@@ -385,7 +385,7 @@ spatial_adjust = function(object,slice_id='slice1',proj_name=NULL,rotate_mirror=
   
     z_range = range(vec)
     label_values = pretty(z_range) 
-    label_values = label_values[which(label_values<=z_range[2])]
+    label_values = label_values[which(label_values<=z_range[2] & label_values>=z_range[1])]
     label_positions = legend_y_bottom + (label_values - z_range[1]) / (z_range[2] - z_range[1]) * (legend_y_top - legend_y_bottom)
     axis(side = 4, at = label_positions, labels = label_values, las = 1, pos = legend_x_right, cex.axis = 0.8)
     par(mar = c(5, 4, 4, 2) + 0.1, xpd = FALSE)
